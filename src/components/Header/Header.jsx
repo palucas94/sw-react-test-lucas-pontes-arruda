@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { changeCategory } from '../redux/reducers/categorySlice';
-import { changeCurrency } from '../redux/reducers/currencySlice';
-import store from '../redux/store';
-import client from '../services/apolloClient/client';
-import GET_CATEGORIES from '../services/graphqlQueries/getCategoriesQuery';
-import GET_CURRENCIES from '../services/graphqlQueries/getCurrenciesQuery';
-import shoppingBag from '../icons/shoppingbag.png';
-import emptycart from '../icons/emptycart.png';
+import { changeCategory } from '../../redux/reducers/categorySlice';
+import { changeCurrency } from '../../redux/reducers/currencySlice';
+import store from '../../redux/store';
+import client from '../../services/apolloClient/client';
+import GET_CATEGORIES from '../../services/graphqlQueries/getCategoriesQuery';
+import GET_CURRENCIES from '../../services/graphqlQueries/getCurrenciesQuery';
+import shoppingBag from '../../icons/shoppingbag.png';
+import emptycart from '../../icons/emptycart.png';
+import './Header.css';
 
 class Header extends Component {
   constructor() {
@@ -16,6 +17,7 @@ class Header extends Component {
       categories: [],
       currencies: [],
       currency: '',
+      category: '',
       dataError: false,
     };
   }
@@ -52,8 +54,14 @@ class Header extends Component {
     const currentCategory = JSON.parse(localStorage.getItem('swCategory'));
     if (currentCategory) {
       store.dispatch(changeCategory(currentCategory));
+      this.setState({
+        category: currentCategory,
+      });
     } else {
       localStorage.setItem('swCategory', JSON.stringify('all'));
+      this.setState({
+        category: 'all',
+      });
     }
 
     const currentCurrency = JSON.parse(localStorage.getItem('swCurrency'));
@@ -81,12 +89,20 @@ class Header extends Component {
   changeCurrentCategory(value) {
     localStorage.setItem('swCategory', JSON.stringify(value));
     store.dispatch(changeCategory(value));
-    this.setState();
+    this.setState({
+      category: value,
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  showCurrencies() {
+    const dropdown = document.getElementById('dropdown');
+    dropdown.classList.toggle('show-currencies');
   }
 
   render() {
     const {
-      categories, currencies, currency, dataError,
+      categories, currencies, currency, category, dataError,
     } = this.state;
 
     if (dataError) return <h2>Something went wrong.. Please reload the page</h2>;
@@ -100,25 +116,42 @@ class Header extends Component {
               type="button"
               onClick={({ target: { value } }) => this.changeCurrentCategory(value)}
               key={name}
+              className={category === name ? 'category selected-category' : 'category'}
             >
-              {name.toUpperCase()}
+              {name}
             </button>
           ))}
         </nav>
 
-        <img src={shoppingBag} alt="shoppingbag" style={{ width: '50px' }} />
+        <img src={shoppingBag} alt="shoppingbag" className="icon-shoppingbag" />
 
-        <div>
-          <select onChange={({ target: { value } }) => this.changeCurrentCurrency(value)}>
+        <div className="cart-currency-container">
+          <div className="currency-dropdown">
+            <button type="button" onClick={this.showCurrencies} className="currency-dropdown-btn">{currency}</button>
+            <div id="dropdown" className="currency-dropdown-content">
+              { currencies.map(({ label, symbol }) => (
+                <button
+                  type="button"
+                  onClick={({ target: { value } }) => this.changeCurrentCurrency(value)}
+                  key={symbol}
+                  value={symbol}
+                >
+                  {`${symbol} ${label}`}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* <select onChange={({ target: { value } }) => this.changeCurrentCurrency(value)}>
             <option>{ currency }</option>
             { currencies.map(({ label, symbol }) => (
               <option key={symbol} value={symbol}>
                 {`${symbol} ${label}`}
               </option>
             ))}
-          </select>
+          </select> */}
 
-          <img src={emptycart} alt="cart" style={{ width: '50px' }} />
+          <img src={emptycart} alt="cart" className="icon-emptycart" />
         </div>
       </header>
     );
