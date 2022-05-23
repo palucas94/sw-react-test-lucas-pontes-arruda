@@ -100,6 +100,11 @@ class Header extends Component {
     dropdown.classList.toggle('show-currencies');
   }
 
+  currencySelected({ target: { value } }) {
+    this.changeCurrentCurrency(value);
+    this.showCurrencies();
+  }
+
   render() {
     const {
       categories, currencies, currency, category, dataError,
@@ -108,7 +113,7 @@ class Header extends Component {
     if (dataError) return <h2>Something went wrong.. Please reload the page</h2>;
 
     return (
-      <header>
+      <header className="header-container">
         <nav>
           { categories.map(({ name }) => (
             <button
@@ -132,7 +137,7 @@ class Header extends Component {
               { currencies.map(({ label, symbol }) => (
                 <button
                   type="button"
-                  onClick={({ target: { value } }) => this.changeCurrentCurrency(value)}
+                  onClick={(e) => this.currencySelected(e)}
                   key={symbol}
                   value={symbol}
                 >
@@ -141,15 +146,6 @@ class Header extends Component {
               ))}
             </div>
           </div>
-
-          {/* <select onChange={({ target: { value } }) => this.changeCurrentCurrency(value)}>
-            <option>{ currency }</option>
-            { currencies.map(({ label, symbol }) => (
-              <option key={symbol} value={symbol}>
-                {`${symbol} ${label}`}
-              </option>
-            ))}
-          </select> */}
 
           <img src={emptycart} alt="cart" className="icon-emptycart" />
         </div>

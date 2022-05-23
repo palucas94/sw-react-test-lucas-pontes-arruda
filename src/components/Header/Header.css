@@ -1,0 +1,106 @@
+.header-container {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  height: 80px;
+  background: var(--color-white);
+
+  padding: 0px 101px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+
+  height: 56px;
+  width: 234px;
+}
+
+.category {
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+
+  line-height: 19.2px;
+
+  padding: 0px 16px;
+
+  color: var(--color-black);
+  cursor: pointer;
+}
+
+.selected-category {
+  font-weight: 600;
+  color: var(--color-light-green);
+
+  border-bottom: 2px solid var(--color-light-green);
+}
+
+.icon-shoppingbag {
+  width: 41px;
+  height: 41px;
+}
+
+.cart-currency-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  height: 40px;
+  width: 204px;
+  gap: 22px;
+}
+
+.icon-emptycart {
+  height: 18px;
+  width: 20px;
+}
+
+.currency-dropdown {
+  position: relative;
+}
+
+.currency-dropdown-btn {
+  cursor: pointer;
+
+  width: 12px;
+  height: 29px;
+
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 160%;
+
+  color: var(--color-black);
+}
+
+.currency-dropdown-content {
+  display: none;
+
+  position: absolute;
+  width: 114px;
+
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+.currency-dropdown-content button {
+  cursor: pointer;
+  display: block;
+
+  height: 45px;
+  width: 100%;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  color: var(--color-black);
+}
+
+.currency-dropdown-content button:hover {
+  background: var(--color-hover-shadow);
+}
+
+.show-currencies {
+  display: block;
+}
