@@ -1,0 +1,16 @@
+.category-name {
+  font-size: 42px;
+  font-weight: 400;
+  text-transform: capitalize;
+  
+  padding: 80px 101px;
+  
+  color: var(--color-black);
+}
+
+.product-listing-container {
+  display: flex;
+  flex-wrap: wrap;
+
+  padding-left: 101px;
+}

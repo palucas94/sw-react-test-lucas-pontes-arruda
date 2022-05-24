@@ -48,9 +48,10 @@ class ProductListingPage extends PureComponent {
     return (
       <div>
         <Header />
+
         <h1 className="category-name">{ category }</h1>
 
-        <main>
+        <main className="product-listing-container">
           { categories.map(({ name, products }) => (
             name === category && products.map((product) => (
               <ProductCard key={product.name} product={product} />
