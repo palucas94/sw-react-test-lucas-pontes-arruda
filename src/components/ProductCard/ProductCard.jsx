@@ -41,12 +41,17 @@ class ProductCard extends PureComponent {
     } = this.props;
 
     return (
-      <Link to={`/product/${id}`}>
-        <img src={gallery[0]} alt={name} className={inStock ? '' : 'outOfStock'} style={{ width: '200px' }} />
-        <h4>{`${brand} ${name}`}</h4>
-        { prices.map(({ currency: { symbol }, amount }) => (
-          symbol === currency && <p key={symbol}>{`${symbol}${amount}`}</p>
-        ))}
+      <Link to={`/product/${id}`} className="product-card">
+        <div className="product-img-container">
+          <img src={gallery[0]} alt={name} className={inStock ? '' : 'img-out-of-stock'} />
+          { !inStock && <p className="text-out-of-stock">Out of stock</p> }
+        </div>
+        <div className="product-info-container">
+          <h4 className="product-name">{`${brand} ${name}`}</h4>
+          { prices.map(({ currency: { symbol }, amount }) => (
+            symbol === currency && <p key={symbol} className="product-price">{`${symbol}${amount}`}</p>
+          ))}
+        </div>
       </Link>
     );
   }
