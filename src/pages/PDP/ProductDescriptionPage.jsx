@@ -4,6 +4,7 @@ import Header from '../../components/Header/Header';
 import client from '../../services/apolloClient/client';
 import GET_PRODUCT_BY_ID from '../../services/graphqlQueries/getProductByIdQuery';
 import store from '../../redux/store';
+import './ProductDescriptionPage.css';
 
 class ProductDescriptionPage extends PureComponent {
   constructor(props) {
@@ -13,6 +14,7 @@ class ProductDescriptionPage extends PureComponent {
       product: [],
       currency: '',
       dataError: false,
+      selectedImg: '',
     };
   }
 
@@ -47,6 +49,7 @@ class ProductDescriptionPage extends PureComponent {
 
       this.setState({
         product,
+        selectedImg: product.gallery[0],
       });
     } catch (e) {
       this.setState({
@@ -56,7 +59,9 @@ class ProductDescriptionPage extends PureComponent {
   };
 
   render() {
-    const { product, currency, dataError } = this.state;
+    const {
+      product, currency, dataError, selectedImg,
+    } = this.state;
     const {
       name, brand, description, gallery, attributes, prices,
     } = product;
@@ -67,36 +72,39 @@ class ProductDescriptionPage extends PureComponent {
       <div>
         <Header />
 
-        <main>
-          <div>
-            {gallery && gallery.map((image) => (
-              <img src={image} alt={name} style={{ width: '100px' }} />
-            ))}
+        <main className="product-description-container">
+          <div className="product-imgs-container">
+            <div className="product-imgs-wrapper">
+              {gallery && gallery.map((image) => (
+                <img className="product-imgs" src={image} alt={name} style={{ width: '100px' }} />
+              ))}
+            </div>
+            <img className="selected-img" src={selectedImg} alt={name} />
           </div>
 
           <div>
-            <h3>{brand}</h3>
-            <h3>{name}</h3>
+            <h3 className="pdp-product-brand">{brand}</h3>
+            <h3 className="pdp-product-name">{name}</h3>
 
             {attributes && attributes.map(({ name: attrName, type, items }) => (
               <>
-                <h4>{attrName}</h4>
-                <ul>
+                <h4 className="product-attr-name">{`${attrName}:`}</h4>
+                <ul className="attr-option-container">
                   {type === 'swatch'
-                    ? items.map(({ value }) => <li style={{ width: '32px', height: '32px', backgroundColor: value }} />)
-                    : items.map(({ value }) => <li>{value}</li>)}
+                    ? items.map(({ value }) => <li className="attr-swatch-option" style={{ backgroundColor: value }} />)
+                    : items.map(({ value }) => <li className="attr-option">{value}</li>)}
                 </ul>
               </>
             ))}
 
-            <h4>Price:</h4>
+            <h4 className="product-attr-name">Price:</h4>
             { prices && prices.map(({ currency: { symbol }, amount }) => (
-              symbol === currency && <p>{`${symbol}${amount}`}</p>
+              symbol === currency && <p className="pdp-product-price">{`${symbol}${amount}`}</p>
             ))}
 
-            <button type="button">Add to cart</button>
+            <button type="button" className="add-to-cart-btn">Add to cart</button>
 
-            {description && <Interweave content={description} />}
+            {description && <Interweave className="product-description" content={description} />}
           </div>
         </main>
       </div>

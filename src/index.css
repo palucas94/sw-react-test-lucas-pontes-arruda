@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 :root {
   --font-base: 'Raleway', sans-serif;
+  --font-secondary: 'Roboto', sans-serif;
 
   --color-white: #FFFFFF;
   --color-black: #1D1F22;
@@ -19,6 +21,7 @@
   background: none;
   scroll-behavior: smooth;
   text-decoration: none;
+  list-style: none;
 
   font-family: var(--font-base);
 }
