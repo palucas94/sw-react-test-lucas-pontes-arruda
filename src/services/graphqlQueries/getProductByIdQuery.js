@@ -24,6 +24,7 @@ const GET_PRODUCT_BY_ID = gql`
         amount
       }
       brand
+      inStock
     }
   }`;
 

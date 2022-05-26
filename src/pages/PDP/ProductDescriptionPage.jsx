@@ -63,7 +63,7 @@ class ProductDescriptionPage extends PureComponent {
       product, currency, dataError, selectedImg,
     } = this.state;
     const {
-      name, brand, description, gallery, attributes, prices,
+      name, brand, description, gallery, attributes, prices, inStock,
     } = product;
 
     if (dataError) return <div>ERROOOO</div>;
@@ -102,7 +102,7 @@ class ProductDescriptionPage extends PureComponent {
               symbol === currency && <p className="pdp-product-price">{`${symbol}${amount}`}</p>
             ))}
 
-            <button type="button" className="add-to-cart-btn">Add to cart</button>
+            <button type="button" className="add-to-cart-btn" disabled={!inStock}>Add to cart</button>
 
             {description && <Interweave className="product-description" content={description} />}
           </div>
