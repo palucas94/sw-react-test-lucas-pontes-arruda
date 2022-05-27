@@ -61,11 +61,6 @@ class ProductDescriptionPage extends PureComponent {
     }
   };
 
-  // eslint-disable-next-line class-methods-use-this
-  setAttribute = (name, type, value) => {
-    store.dispatch(setCurrentProductAttributes({ name, type, value }));
-  };
-
   render() {
     const {
       product, currency, dataError, selectedImg,
@@ -106,7 +101,9 @@ class ProductDescriptionPage extends PureComponent {
                         type="button"
                         className="attr-swatch-option"
                         style={{ backgroundColor: value }}
-                        onClick={() => this.setAttribute(attrName, type, value)}
+                        onClick={() => store.dispatch(
+                          setCurrentProductAttributes({ name: attrName, type, value }),
+                        )}
                       />
                     ))
                     : items.map(({ value }) => (
@@ -114,7 +111,9 @@ class ProductDescriptionPage extends PureComponent {
                         key={value}
                         type="button"
                         className="attr-option"
-                        onClick={() => this.setAttribute(attrName, type, value)}
+                        onClick={() => store.dispatch(
+                          setCurrentProductAttributes({ name: attrName, type, value }),
+                        )}
                       >
                         {value}
                       </button>
