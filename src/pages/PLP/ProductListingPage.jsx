@@ -12,13 +12,17 @@ class ProductListingPage extends PureComponent {
 
     this.state = {
       categories: [],
-      category: store.getState().category.currentCategory,
+      category: '',
       dataError: false,
     };
   }
 
   componentDidMount() {
     this.fetchProducts();
+
+    this.setState({
+      category: store.getState().category.currentCategory,
+    });
 
     store.subscribe(() => {
       this.setState({
