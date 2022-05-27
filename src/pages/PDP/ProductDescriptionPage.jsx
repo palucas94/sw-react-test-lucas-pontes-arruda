@@ -5,6 +5,7 @@ import client from '../../services/apolloClient/client';
 import GET_PRODUCT_BY_ID from '../../services/graphqlQueries/getProductByIdQuery';
 import store from '../../redux/store';
 import './ProductDescriptionPage.css';
+import { addToCart, setCurrentProductAttributes, setInitialProductAttributes } from '../../redux/reducers/cartSlice';
 
 class ProductDescriptionPage extends PureComponent {
   constructor(props) {
@@ -47,6 +48,8 @@ class ProductDescriptionPage extends PureComponent {
         { query: GET_PRODUCT_BY_ID, variables: { id } },
       );
 
+      store.dispatch(setInitialProductAttributes({ id, product }));
+
       this.setState({
         product,
         selectedImg: product.gallery[0],
@@ -56,6 +59,11 @@ class ProductDescriptionPage extends PureComponent {
         dataError: true,
       });
     }
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  setAttribute = (name, type, value) => {
+    store.dispatch(setCurrentProductAttributes({ name, type, value }));
   };
 
   render() {
@@ -76,7 +84,7 @@ class ProductDescriptionPage extends PureComponent {
           <div className="product-imgs-container">
             <div className="product-imgs-wrapper">
               {gallery && gallery.map((image) => (
-                <img className="product-imgs" src={image} alt={name} style={{ width: '100px' }} />
+                <img key={image} className="product-imgs" src={image} alt={name} style={{ width: '100px' }} />
               ))}
             </div>
             <img className="selected-img" src={selectedImg} alt={name} />
@@ -89,20 +97,45 @@ class ProductDescriptionPage extends PureComponent {
             {attributes && attributes.map(({ name: attrName, type, items }) => (
               <>
                 <h4 className="product-attr-name">{`${attrName}:`}</h4>
-                <ul className="attr-option-container">
+                <div className="attr-option-container">
                   {type === 'swatch'
-                    ? items.map(({ value }) => <li className="attr-swatch-option" style={{ backgroundColor: value }} />)
-                    : items.map(({ value }) => <li className="attr-option">{value}</li>)}
-                </ul>
+                    ? items.map(({ value }) => (
+                      <button
+                        aria-label="Color Option"
+                        key={value}
+                        type="button"
+                        className="attr-swatch-option"
+                        style={{ backgroundColor: value }}
+                        onClick={() => this.setAttribute(attrName, type, value)}
+                      />
+                    ))
+                    : items.map(({ value }) => (
+                      <button
+                        key={value}
+                        type="button"
+                        className="attr-option"
+                        onClick={() => this.setAttribute(attrName, type, value)}
+                      >
+                        {value}
+                      </button>
+                    ))}
+                </div>
               </>
             ))}
 
             <h4 className="product-attr-name">Price:</h4>
             { prices && prices.map(({ currency: { symbol }, amount }) => (
-              symbol === currency && <p className="pdp-product-price">{`${symbol}${amount}`}</p>
+              symbol === currency && <p key={symbol} className="pdp-product-price">{`${symbol}${amount}`}</p>
             ))}
 
-            <button type="button" className="add-to-cart-btn" disabled={!inStock}>Add to cart</button>
+            <button
+              type="button"
+              className="add-to-cart-btn"
+              disabled={!inStock}
+              onClick={() => store.dispatch(addToCart())}
+            >
+              Add to cart
+            </button>
 
             {description && <Interweave className="product-description" content={description} />}
           </div>

@@ -79,6 +79,8 @@
 
   margin-right: 12px;
   border: 1px solid var(--color-black);
+
+  cursor: pointer;
 }
 
 .attr-swatch-option {
@@ -86,6 +88,8 @@
   height: 32px;
 
   margin: 4px;
+
+  cursor: pointer;
 }
 
 .pdp-product-price {
