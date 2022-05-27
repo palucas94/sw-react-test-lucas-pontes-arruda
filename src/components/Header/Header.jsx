@@ -8,6 +8,7 @@ import GET_CURRENCIES from '../../services/graphqlQueries/getCurrenciesQuery';
 import shoppingBag from '../../icons/shoppingbag.png';
 import emptycart from '../../icons/emptycart.png';
 import './Header.css';
+import { recoverSavedCart } from '../../redux/reducers/cartSlice';
 
 class Header extends Component {
   constructor() {
@@ -75,6 +76,11 @@ class Header extends Component {
       this.setState({
         currency: '$',
       });
+    }
+
+    const savedCart = JSON.parse(localStorage.getItem('swCart'));
+    if (savedCart) {
+      store.dispatch(recoverSavedCart(savedCart));
     }
   };
 

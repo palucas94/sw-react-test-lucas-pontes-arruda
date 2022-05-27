@@ -53,11 +53,22 @@ export const cartSlice = createSlice({
       }
 
       state.cartQty += 1;
+
+      localStorage.setItem('swCart', JSON.stringify(cart));
+    },
+
+    recoverSavedCart: (state, action) => {
+      state.cart = action.payload;
+
+      let qtyCount = 0;
+      state.cart.forEach((p) => { qtyCount += p.qty; });
+      state.cartQty = qtyCount;
     },
   },
 });
 
 export const {
-  fetchAllproducts, addToCart, setInitialProductAttributes, setCurrentProductAttributes,
+  fetchAllproducts, addToCart, recoverSavedCart,
+  setInitialProductAttributes, setCurrentProductAttributes,
 } = cartSlice.actions;
 export default cartSlice.reducer;
