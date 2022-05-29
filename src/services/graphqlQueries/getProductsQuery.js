@@ -6,6 +6,7 @@ const GET_PRODUCTS = gql`
     name
     products {
       id
+      __typename @skip(if: true)
       name
       inStock
       gallery
@@ -13,6 +14,7 @@ const GET_PRODUCTS = gql`
       category
       attributes {
         id
+        __typename @skip(if: true)
         name
         type
         items {
