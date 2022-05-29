@@ -16,6 +16,7 @@ class ProductDescriptionPage extends PureComponent {
       currency: '',
       dataError: false,
       selectedImg: '',
+      currentAttrs: [],
     };
   }
 
@@ -36,8 +37,28 @@ class ProductDescriptionPage extends PureComponent {
     store.subscribe(() => {
       this.setState({
         currency: store.getState().currency.currentCurrency,
+        currentAttrs: store.getState().cart.currentProduct.attributes,
       });
     });
+  }
+
+  getClassName(type, attrName, attrValue) {
+    const { currentAttrs } = this.state;
+
+    if (type === 'swatch') {
+      const isSelected = currentAttrs.find(
+        ({ name, value }) => name === attrName && value === attrValue,
+      );
+
+      if (isSelected) return 'attr-swatch-option attr-selected-swatch';
+      return 'attr-swatch-option';
+    }
+
+    const isSelected = currentAttrs.find(
+      ({ name, value }) => name === attrName && value === attrValue,
+    );
+    if (isSelected) return 'attr-option attr-selected-option';
+    return 'attr-option';
   }
 
   fetchProduct = async () => {
@@ -99,7 +120,7 @@ class ProductDescriptionPage extends PureComponent {
                         aria-label="Color Option"
                         key={value}
                         type="button"
-                        className="attr-swatch-option"
+                        className={this.getClassName(type, attrName, value)}
                         style={{ backgroundColor: value }}
                         onClick={() => store.dispatch(
                           setCurrentProductAttributes({ name: attrName, type, value }),
@@ -110,7 +131,7 @@ class ProductDescriptionPage extends PureComponent {
                       <button
                         key={value}
                         type="button"
-                        className="attr-option"
+                        className={this.getClassName(type, attrName, value)}
                         onClick={() => store.dispatch(
                           setCurrentProductAttributes({ name: attrName, type, value }),
                         )}
