@@ -64,11 +64,43 @@ export const cartSlice = createSlice({
       state.cart.forEach((p) => { qtyCount += p.qty; });
       state.cartQty = qtyCount;
     },
+
+    incProductQty: (state, action) => {
+      const { cart } = state;
+      const { id, attributes } = action.payload;
+
+      const index = cart.findIndex((p) => (
+        p.id === id && JSON.stringify(p.attributes) === JSON.stringify(attributes)
+      ));
+
+      cart[index].qty += 1;
+      state.cartQty += 1;
+      localStorage.setItem('swCart', JSON.stringify(cart));
+    },
+
+    decProductQty: (state, action) => {
+      const { cart } = state;
+      const { id, attributes } = action.payload;
+
+      const index = cart.findIndex((p) => (
+        p.id === id && JSON.stringify(p.attributes) === JSON.stringify(attributes)
+      ));
+
+      cart[index].qty -= 1;
+      state.cartQty -= 1;
+
+      if (cart[index].qty === 0) {
+        cart.splice(index, 1);
+      }
+
+      localStorage.setItem('swCart', JSON.stringify(cart));
+    },
   },
 });
 
 export const {
   fetchAllproducts, addToCart, recoverSavedCart,
   setInitialProductAttributes, setCurrentProductAttributes,
+  incProductQty, decProductQty,
 } = cartSlice.actions;
 export default cartSlice.reducer;

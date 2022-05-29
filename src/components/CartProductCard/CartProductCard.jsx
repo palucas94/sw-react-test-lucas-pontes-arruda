@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import { decProductQty, incProductQty } from '../../redux/reducers/cartSlice';
 import store from '../../redux/store';
 import client from '../../services/apolloClient/client';
 import GET_PRODUCT_BY_ID from '../../services/graphqlQueries/getProductByIdQuery';
@@ -103,15 +104,26 @@ class CartProductCard extends Component {
             ))}
 
           </div>
-          <div>
-            <div>
-              <button type="button">+</button>
-              <p>{ qty }</p>
-              <button type="button">-</button>
+          <div className="cart-img-buttons-wrapper">
+            <div className="cart-buttons-wrapper">
+              <button
+                type="button"
+                className="cart-increment-button"
+                onClick={() => store.dispatch(incProductQty(selectedAttrs))}
+              >
+                +
+              </button>
+              <p className="cart-product-qty">{ qty }</p>
+              <button
+                type="button"
+                className="cart-decrement-button"
+                onClick={() => store.dispatch(decProductQty(selectedAttrs))}
+              >
+                -
+              </button>
             </div>
             <img className="cart-product-img" src={gallery && gallery[0]} alt={name} />
           </div>
-
         </div>
         <div className="cart-separating-line" />
       </div>
