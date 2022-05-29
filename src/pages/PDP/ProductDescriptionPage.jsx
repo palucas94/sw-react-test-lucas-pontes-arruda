@@ -4,8 +4,8 @@ import Header from '../../components/Header/Header';
 import client from '../../services/apolloClient/client';
 import GET_PRODUCT_BY_ID from '../../services/graphqlQueries/getProductByIdQuery';
 import store from '../../redux/store';
-import './ProductDescriptionPage.css';
 import { addToCart, setCurrentProductAttributes, setInitialProductAttributes } from '../../redux/reducers/cartSlice';
+import './ProductDescriptionPage.css';
 
 class ProductDescriptionPage extends PureComponent {
   constructor(props) {
@@ -61,6 +61,12 @@ class ProductDescriptionPage extends PureComponent {
     return 'attr-option';
   }
 
+  changeSelectedImg = ({ target: { src } }) => {
+    this.setState({
+      selectedImg: src,
+    });
+  };
+
   fetchProduct = async () => {
     const id = window.location.pathname.split('/')[2].toString();
 
@@ -100,7 +106,13 @@ class ProductDescriptionPage extends PureComponent {
           <div className="product-imgs-container">
             <div className="product-imgs-wrapper">
               {gallery && gallery.map((image) => (
-                <img key={image} className="product-imgs" src={image} alt={name} style={{ width: '100px' }} />
+                <button className="product-imgs" type="button" onClick={(e) => this.changeSelectedImg(e)}>
+                  <img
+                    key={image}
+                    src={image}
+                    alt={name}
+                  />
+                </button>
               ))}
             </div>
             <img className="selected-img" src={selectedImg} alt={name} />

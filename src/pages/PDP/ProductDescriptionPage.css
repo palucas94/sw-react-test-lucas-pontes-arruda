@@ -15,6 +15,14 @@
 
 .product-imgs-wrapper {
   flex-direction: column;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.product-imgs-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .selected-img {
@@ -31,6 +39,10 @@
   margin: 20px;
 
   cursor: pointer;
+}
+
+.product-imgs img {
+  width: 100%;
 }
 
 .pdp-product-brand {
