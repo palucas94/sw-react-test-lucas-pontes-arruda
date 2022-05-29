@@ -8,6 +8,7 @@ const GET_PRODUCT_BY_ID = gql`
       description
       attributes {
         id
+        __typename @skip(if: true)
         name
         type
         items {
