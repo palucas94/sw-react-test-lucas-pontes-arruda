@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const cartSlice = createSlice({
   name: 'cart',
   initialState: {
+    allProducts: [],
     currentProduct: {
       id: '',
       attributes: [],
@@ -13,15 +14,18 @@ export const cartSlice = createSlice({
     cartQty: 0,
   },
   reducers: {
+    setAllProducts: (state, action) => {
+      const { products } = action.payload[0];
+      state.allProducts = products;
+    },
+
     setInitialProductAttributes: (state, action) => {
-      const { id: currentId, attributes } = state.currentProduct;
+      const { attributes } = state.currentProduct;
       const { id, product } = action.payload;
       const { attributes: productAttr } = product;
 
-      if (currentId !== id) {
-        attributes.length = 0;
-        state.currentProduct.id = id;
-      }
+      attributes.length = 0;
+      state.currentProduct.id = id;
 
       if (productAttr.length) {
         productAttr.forEach(({ name, type, items }) => (
@@ -57,6 +61,22 @@ export const cartSlice = createSlice({
       localStorage.setItem('swCart', JSON.stringify(cart));
     },
 
+    addToCartFromPLP: (state, action) => {
+      const id = action.payload;
+      const { allProducts, currentProduct } = state;
+      const { attributes: productAttr } = allProducts.find((p) => p.id === id);
+
+      currentProduct.attributes.length = 0;
+      state.currentProduct.id = id;
+
+      if (productAttr.length) {
+        productAttr.forEach(({ name, type, items }) => (
+          currentProduct.attributes.push({ name, type, value: items[0].value })));
+      }
+
+      cartSlice.caseReducers.addToCart(state);
+    },
+
     recoverSavedCart: (state, action) => {
       state.cart = action.payload;
 
@@ -87,19 +107,19 @@ export const cartSlice = createSlice({
       ));
 
       cart[index].qty -= 1;
-      state.cartQty -= 1;
 
       if (cart[index].qty === 0) {
         cart.splice(index, 1);
       }
 
+      state.cartQty -= 1;
       localStorage.setItem('swCart', JSON.stringify(cart));
     },
   },
 });
 
 export const {
-  fetchAllproducts, addToCart, recoverSavedCart,
+  setAllProducts, addToCart, addToCartFromPLP, recoverSavedCart,
   setInitialProductAttributes, setCurrentProductAttributes,
   incProductQty, decProductQty,
 } = cartSlice.actions;

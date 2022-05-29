@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import Header from '../../components/Header/Header';
 import ProductCard from '../../components/ProductCard/ProductCard';
+import { setAllProducts } from '../../redux/reducers/cartSlice';
 import store from '../../redux/store';
 import client from '../../services/apolloClient/client';
 import GET_PRODUCTS from '../../services/graphqlQueries/getProductsQuery';
@@ -34,6 +35,9 @@ class ProductListingPage extends PureComponent {
   fetchProducts = async () => {
     try {
       const { data: { categories } } = await client.query({ query: GET_PRODUCTS });
+
+      store.dispatch(setAllProducts(categories));
+
       this.setState({
         categories,
       });
