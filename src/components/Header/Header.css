@@ -53,6 +53,30 @@ nav {
   gap: 22px;
 }
 
+.cart-btn {
+  position: relative;
+  cursor: pointer;
+}
+
+.cart-item-qty {
+  position: absolute;
+  right: -12px;
+  top: -10px;
+
+  width: 20px;
+  height: 20px;
+
+  font-family: var(--font-secondary);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+
+  color: var(--color-white);
+  background: var(--color-black);
+
+  border-radius: 50%;
+}
+
 .icon-emptycart {
   height: 18px;
   width: 20px;

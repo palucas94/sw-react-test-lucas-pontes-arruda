@@ -24,6 +24,7 @@ class Header extends Component {
       currencies: [],
       currency: '',
       category: '',
+      cartQty: 0,
       dataError: false,
     };
   }
@@ -32,6 +33,16 @@ class Header extends Component {
     this.fetchCategories();
     this.fetchCurrencies();
     this.getLocalStorage();
+
+    this.setState({
+      cartQty: store.getState().cart.cartQty,
+    });
+
+    store.subscribe(() => {
+      this.setState({
+        cartQty: store.getState().cart.cartQty,
+      });
+    });
   }
 
   fetchCategories = async () => {
@@ -127,7 +138,7 @@ class Header extends Component {
 
   render() {
     const {
-      categories, currencies, currency, category, dataError,
+      categories, currencies, currency, category, cartQty, dataError,
     } = this.state;
 
     if (dataError) return <h2>Something went wrong.. Please reload the page</h2>;
@@ -176,7 +187,8 @@ class Header extends Component {
           </div>
 
           <div className="cart-overlay-container">
-            <button type="button" onClick={this.showCartOverlay}>
+            <button className="cart-btn" type="button" onClick={this.showCartOverlay}>
+              { cartQty > 0 && <div className="cart-item-qty">{cartQty}</div>}
               <img src={emptycart} alt="cart" className="icon-emptycart" />
             </button>
             <div id="cart-overlay" className="cart-overlay-content">
