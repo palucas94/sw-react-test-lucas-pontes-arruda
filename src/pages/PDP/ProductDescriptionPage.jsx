@@ -162,7 +162,7 @@ class ProductDescriptionPage extends PureComponent {
 
             <button
               type="button"
-              className="add-to-cart-btn"
+              className={inStock ? 'add-to-cart-btn' : 'add-to-cart-btn out-of-stock-btn'}
               disabled={!inStock}
               onClick={() => store.dispatch(addToCart())}
             >

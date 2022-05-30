@@ -137,6 +137,11 @@ h1, h2, h3 {
   cursor: pointer;
 }
 
+.out-of-stock-btn {
+  opacity: 0.6;
+  cursor: auto;
+}
+
 .product-description {
   height: 250px;
   width: 292px;
