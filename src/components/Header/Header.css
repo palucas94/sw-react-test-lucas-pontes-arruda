@@ -101,6 +101,7 @@ nav {
   background: var(--color-hover-shadow);
 }
 
-.show-currencies {
+.show-currencies,
+.show-cart-overlay {
   display: block;
 }

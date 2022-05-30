@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import CartOverlay from '../CartOverlay/CartOverlay';
+
+import store from '../../redux/store';
 import { changeCategory } from '../../redux/reducers/categorySlice';
 import { changeCurrency } from '../../redux/reducers/currencySlice';
-import store from '../../redux/store';
+import { recoverSavedCart } from '../../redux/reducers/cartSlice';
+
 import client from '../../services/apolloClient/client';
 import GET_CATEGORIES from '../../services/graphqlQueries/getCategoriesQuery';
 import GET_CURRENCIES from '../../services/graphqlQueries/getCurrenciesQuery';
+
 import shoppingBag from '../../icons/shoppingbag.png';
 import emptycart from '../../icons/emptycart.png';
 import './Header.css';
-import { recoverSavedCart } from '../../redux/reducers/cartSlice';
+import '../CartOverlay/CartOverlay.css';
 
 class Header extends Component {
   constructor() {
@@ -106,6 +111,12 @@ class Header extends Component {
     dropdown.classList.toggle('show-currencies');
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  showCartOverlay() {
+    const cartOverlay = document.getElementById('cart-overlay');
+    cartOverlay.classList.toggle('show-cart-overlay');
+  }
+
   currencySelected({ target: { value } }) {
     this.changeCurrentCurrency(value);
     this.showCurrencies();
@@ -153,7 +164,15 @@ class Header extends Component {
             </div>
           </div>
 
-          <img src={emptycart} alt="cart" className="icon-emptycart" />
+          <div className="cart-overlay-container">
+            <button type="button" onClick={this.showCartOverlay}>
+              <img src={emptycart} alt="cart" className="icon-emptycart" />
+            </button>
+            <div id="cart-overlay" className="cart-overlay-content">
+              <CartOverlay />
+            </div>
+          </div>
+
         </div>
       </header>
     );

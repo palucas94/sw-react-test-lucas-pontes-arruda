@@ -30,22 +30,25 @@ class CartProductCard extends Component {
   }
 
   getClassName(type, attrName, attrValue) {
-    const { selectedAttrs } = this.props;
+    const { origin, selectedAttrs } = this.props;
 
     if (type === 'swatch') {
       const isSelected = selectedAttrs.attributes.find(
         ({ name, value }) => name === attrName && value === attrValue,
       );
 
-      if (isSelected) return 'attr-swatch-option attr-selected-swatch';
-      return 'attr-swatch-option';
+      if (isSelected) {
+        return `${origin === 'overlay' ? 'overlay-swatch-option attr-selected-swatch' : 'attr-swatch-option attr-selected-swatch'}`;
+      }
+      return `${origin === 'overlay' ? 'overlay-swatch-option' : 'attr-swatch-option'}`;
     }
 
     const isSelected = selectedAttrs.attributes.find(
       ({ name, value }) => name === attrName && value === attrValue,
     );
-    if (isSelected) return 'attr-option attr-selected-option';
-    return 'attr-option';
+
+    if (isSelected) return `${origin === 'overlay' ? 'overlay-attr-option attr-selected-option' : 'attr-option attr-selected-option'}`;
+    return `${origin === 'overlay' ? 'overlay-attr-option' : 'attr-option'}`;
   }
 
   async fetchProduct() {
@@ -63,22 +66,30 @@ class CartProductCard extends Component {
     const {
       name, brand, attributes, prices, gallery,
     } = product;
-    const { selectedAttrs } = this.props;
+    const { origin, selectedAttrs } = this.props;
     const { qty } = selectedAttrs;
 
     return (
       <div>
-        <div className="cart-product-container">
+        <div className={origin === 'overlay' ? 'overlay-product-container' : 'cart-product-container'}>
           <div>
-            <h3 className="cart-product-brand">{ brand }</h3>
-            <h3 className="cart-product-name">{ name }</h3>
+            <h3 className={origin === 'overlay' ? 'overlay-product-brand' : 'cart-product-brand'}>{ brand }</h3>
+            <h3 className={origin === 'overlay' ? 'overlay-product-name' : 'cart-product-name'}>{ name }</h3>
 
             { prices && prices.map(({ currency: { symbol }, amount }) => (
-              symbol === currency && <p key={symbol} className="cart-product-price">{`${symbol}${amount * qty}`}</p>))}
+              symbol === currency
+                && (
+                <p
+                  key={symbol}
+                  className={origin === 'overlay' ? 'overlay-product-price' : 'cart-product-price'}
+                >
+                  {`${symbol}${amount * qty}`}
+                </p>
+                )))}
 
             { attributes && attributes.map(({ name: attrName, type, items }) => (
               <>
-                <h4 className="cart-attr-name">{`${attrName}:`}</h4>
+                <h4 className={origin === 'overlay' ? 'overlay-attr-name' : 'cart-attr-name'}>{`${attrName}:`}</h4>
                 <div className="attr-option-container">
                   {type === 'swatch'
                     ? items.map(({ value }) => (
@@ -104,11 +115,12 @@ class CartProductCard extends Component {
             ))}
 
           </div>
-          <div className="cart-img-buttons-wrapper">
-            <div className="cart-buttons-wrapper">
+
+          <div className={origin === 'overlay' ? 'overlay-img-buttons-wrapper' : 'cart-img-buttons-wrapper'}>
+            <div className={origin === 'overlay' ? 'overlay-buttons-wrapper' : 'cart-buttons-wrapper'}>
               <button
                 type="button"
-                className="cart-increment-button"
+                className={origin === 'overlay' ? 'overlay-increment-button' : 'cart-increment-button'}
                 onClick={() => store.dispatch(incProductQty(selectedAttrs))}
               >
                 +
@@ -116,16 +128,22 @@ class CartProductCard extends Component {
               <p className="cart-product-qty">{ qty }</p>
               <button
                 type="button"
-                className="cart-decrement-button"
+                className={origin === 'overlay' ? 'overlay-decrement-button' : 'cart-decrement-button'}
                 onClick={() => store.dispatch(decProductQty(selectedAttrs))}
               >
                 -
               </button>
             </div>
-            <img className="cart-product-img" src={gallery && gallery[0]} alt={name} />
+
+            <img
+              className={origin === 'overlay' ? 'overlay-product-img' : 'cart-product-img'}
+              src={gallery && gallery[0]}
+              alt={name}
+            />
+
           </div>
         </div>
-        <div className="cart-separating-line" />
+        <div className={origin === 'overlay' ? 'overlay-separating-line' : 'cart-separating-line'} />
       </div>
     );
   }
