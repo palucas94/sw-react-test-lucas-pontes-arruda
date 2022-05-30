@@ -76,7 +76,7 @@
 }
 
 .attr-selected-swatch {
-  border: 3px solid var(--color-light-green);
+  border: 2px solid var(--color-light-green);
 }
 
 .attr-selected-option {

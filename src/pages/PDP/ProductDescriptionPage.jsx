@@ -169,7 +169,12 @@ class ProductDescriptionPage extends PureComponent {
               Add to cart
             </button>
 
-            {description && <Interweave className="product-description" content={description} />}
+            {description
+            && (
+              <div className="product-description">
+                <Interweave content={description} />
+              </div>
+            )}
           </div>
         </main>
       </div>
