@@ -104,3 +104,56 @@
   color: white;
   background: var(--color-black);
 }
+
+.cart-imgs-container {
+  position: relative;
+}
+
+.cart-imgs-wrapper {
+  width: 200px;
+  display: flex;
+  overflow: hidden;
+}
+
+.arrow-box-left,
+.arrow-box-right {
+  position: absolute;
+  bottom: 15px;
+  
+  width: 24px;
+  height: 24px;
+  
+  background: #000000;
+  opacity: 0.73;
+  cursor: pointer;
+}
+
+.arrow-box-left {
+  right: 60px;
+}
+
+.arrow-box-right {
+  right: 20px;
+}
+
+.arrow-left,
+.arrow-right {
+  position: absolute;
+  top: 7px;
+
+  border: solid var(--color-white);
+  border-width: 0px 1.5px 1.5px 0px;
+  padding: 4px;
+}
+
+.arrow-left {
+  right: 5px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.arrow-right {
+  left: 5px;
+  transform: rotate(315deg);
+  -webkit-transform: rotate(315deg);
+}

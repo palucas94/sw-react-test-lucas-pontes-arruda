@@ -14,6 +14,8 @@ class CartProductCard extends Component {
       product: '',
       currency: '',
     };
+
+    this.ref = React.createRef();
   }
 
   componentDidMount() {
@@ -49,6 +51,16 @@ class CartProductCard extends Component {
 
     if (isSelected) return `${origin === 'overlay' ? 'overlay-attr-option attr-selected-option' : 'attr-option attr-selected-option'}`;
     return `${origin === 'overlay' ? 'overlay-attr-option' : 'attr-option'}`;
+  }
+
+  scroll(direction) {
+    const { current } = this.ref;
+
+    if (direction === 'left') {
+      current.scrollLeft -= 200;
+    } else {
+      current.scrollLeft += 200;
+    }
   }
 
   async fetchProduct() {
@@ -136,11 +148,50 @@ class CartProductCard extends Component {
               </button>
             </div>
 
-            <img
-              className={origin === 'overlay' ? 'overlay-product-img' : 'cart-product-img'}
-              src={gallery && gallery[0]}
-              alt={name}
-            />
+            { origin === 'overlay'
+              ? (
+                <img
+                  className={origin === 'overlay' ? 'overlay-product-img' : 'cart-product-img'}
+                  src={gallery && gallery[0]}
+                  alt={name}
+                />
+              )
+              : (
+                <div className="cart-imgs-container">
+
+                  <div className="cart-imgs-wrapper" ref={this.ref}>
+                    { gallery && gallery.map((img) => (
+                      <div key={img}>
+                        <img className="cart-product-img" src={img} alt={name} />
+                      </div>
+                    ))}
+                  </div>
+
+                  { gallery && gallery.length > 1
+                  && (
+                  <div>
+                    <button
+                      aria-label="Left arrow"
+                      type="button"
+                      className="arrow-box-left"
+                      onClick={() => this.scroll('left')}
+                    >
+                      <div className="arrow-left" />
+                    </button>
+
+                    <button
+                      aria-label="Right arrow"
+                      type="button"
+                      className="arrow-box-right"
+                      onClick={() => this.scroll('right')}
+                    >
+                      <div className="arrow-right" />
+                    </button>
+                  </div>
+                  )}
+
+                </div>
+              )}
 
           </div>
         </div>
