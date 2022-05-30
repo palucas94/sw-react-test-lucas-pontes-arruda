@@ -60,19 +60,42 @@ nav {
 
 .currency-dropdown {
   position: relative;
+  width: 40px;
 }
 
 .currency-dropdown-btn {
   cursor: pointer;
-
-  width: 12px;
+  
+  width: 29px;
   height: 29px;
-
+  
   font-size: 18px;
   font-weight: 500;
   line-height: 160%;
+  
+  text-align: center;
 
   color: var(--color-black);
+}
+
+.currency-dropdown-arrow {
+  position: absolute;
+  right: 0px;
+  top: 10px;
+  
+  border: solid var(--color-black);
+  border-width: 0 1px 1px 0;
+  padding: 3px;
+
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.up {
+  top: 12px;
+
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
 }
 
 .currency-dropdown-content {

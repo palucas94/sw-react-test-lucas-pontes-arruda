@@ -109,6 +109,9 @@ class Header extends Component {
   showCurrencies() {
     const dropdown = document.getElementById('dropdown');
     dropdown.classList.toggle('show-currencies');
+
+    const dropdownArrow = document.getElementById('dropdown-arrow');
+    dropdownArrow.classList.toggle('up');
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -149,7 +152,15 @@ class Header extends Component {
 
         <div className="cart-currency-container">
           <div className="currency-dropdown">
-            <button type="button" onClick={this.showCurrencies} className="currency-dropdown-btn">{currency}</button>
+            <button
+              type="button"
+              onClick={this.showCurrencies}
+              className="currency-dropdown-btn"
+            >
+              {currency}
+              <div id="dropdown-arrow" className="currency-dropdown-arrow" />
+            </button>
+
             <div id="dropdown" className="currency-dropdown-content">
               { currencies.map(({ label, symbol }) => (
                 <button
