@@ -1,0 +1,149 @@
+.cart-overlay-content {
+  display: none;
+
+  position: absolute;
+  right: 72px;
+  top: 78px;
+
+  width: 325px;
+  height: 677px;
+  
+  z-index: 1;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+
+.cart-overlay-wrapper {
+  height: 420px;
+
+  overflow: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cart-overlay-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.cart-overlay-title {
+  font-size: 16px;
+  font-weight: 700;
+
+  line-height: 25.6px;
+
+  margin: 32px 16px;
+}
+
+.overlay-product-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 16px 20px;
+}
+
+.overlay-product-brand,
+.overlay-product-name {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 25.6px;
+}
+
+.overlay-product-price {
+  font-size: 16px;
+  line-height: 25.6px;
+  font-weight: 700;
+
+  margin: 8px 0;
+}
+
+.overlay-attr-name {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.overlay-attr-option {
+  height: 24px;
+  width: 24px;
+
+  border: 1px solid var(--color-black);
+
+  margin-top: 8px;
+  margin-right: 8px;
+
+  overflow: hidden;
+}
+
+.overlay-swatch-option {
+  height: 16px;
+  width: 16px;
+
+  margin-top: 10px;
+  margin-right: 8px;
+}
+
+.overlay-increment-button,
+.overlay-decrement-button {
+  width: 24px;
+  height: 24px;
+
+  border: 1px solid var(--color-black);
+}
+
+.overlay-img-buttons-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.overlay-buttons-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.overlay-product-img {
+  width: 121px;
+  height: 190px;
+
+  margin-left: 8px;
+  object-fit: contain;
+}
+
+.cart-overlay-footer {
+  height: 160px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  padding: 32px 16px;
+}
+
+.view-bag-btn,
+.checkout-btn {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16.8px;
+  text-transform: uppercase;
+
+  height: 43px;
+  width: 140px;
+
+  cursor: pointer;
+}
+
+.view-bag-btn {
+  border: 1px solid var(--color-black);
+}
+
+.checkout-btn {
+  color: var(--color-white);
+  background: var(--color-light-green);
+
+  margin-left: 12px;
+}
+
+.overlay-separating-line {
+  display: none;
+}
