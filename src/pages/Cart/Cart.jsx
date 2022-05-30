@@ -14,6 +14,8 @@ class Cart extends Component {
       products: [],
       cart: [],
       cartQty: 0,
+      currency: '',
+      totalPrice: 0,
     };
   }
 
@@ -23,13 +25,30 @@ class Cart extends Component {
     this.setState({
       cart: store.getState().cart.cart,
       cartQty: store.getState().cart.cartQty,
+      currency: store.getState().currency.currentCurrency,
     });
 
     store.subscribe(() => {
       this.setState({
         cart: store.getState().cart.cart,
         cartQty: store.getState().cart.cartQty,
-      });
+        currency: store.getState().currency.currentCurrency,
+      }, () => this.getTotalPrice());
+    });
+  }
+
+  getTotalPrice() {
+    const { products, cart, currency } = this.state;
+    let total = 0;
+
+    cart.forEach(({ id, qty }) => {
+      const product = products.find((p) => p.id === id);
+      const { amount } = product.prices.find(({ currency: { symbol } }) => symbol === currency);
+      total += (amount * qty);
+    });
+
+    this.setState({
+      totalPrice: total,
     });
   }
 
@@ -38,12 +57,12 @@ class Cart extends Component {
 
     this.setState({
       products: categories[0].products,
-    });
+    }, () => this.getTotalPrice());
   }
 
   render() {
     const {
-      products, cart, cartQty,
+      products, cart, cartQty, currency, totalPrice,
     } = this.state;
 
     return (
@@ -57,8 +76,25 @@ class Cart extends Component {
             <CartProductCard selectedAttrs={p} />
           ))}
 
-          <h4>{`Quantity: ${cartQty}`}</h4>
-          <button type="button">Order</button>
+          <h4 className="cart-footer-text">
+            Tax 21%:
+            {' '}
+            <span>{`${currency}${(totalPrice * 0.21).toFixed(2)}`}</span>
+          </h4>
+
+          <h4 className="cart-footer-text">
+            Quantity:
+            {' '}
+            <span>{cartQty}</span>
+          </h4>
+
+          <h4 className="cart-footer-text">
+            Total:
+            {' '}
+            <span>{`${currency}${(totalPrice * 1.21).toFixed(2)}`}</span>
+          </h4>
+
+          <button type="button" className="order-btn">Order</button>
         </div>
       </div>
     );

@@ -112,7 +112,7 @@
 }
 
 .overlay-product-qty {
-  font-family: var(--font-primary);
+  font-family: var(--font-base);
   font-weight: 500;
   font-size: 16px;
   line-height: 25.6px;
@@ -147,6 +147,23 @@
   justify-content: space-evenly;
 
   padding: 32px 16px;
+}
+
+.overlay-footer-text {
+  display: flex;
+  justify-content: space-between;
+
+  font-family: var(--font-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.overlay-footer-text span {
+  font-family: var(--font-base);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 25.6px;
 }
 
 .view-bag-btn,

@@ -14,6 +14,8 @@ class CartOverlay extends Component {
       products: [],
       cart: [],
       cartQty: 0,
+      currency: '',
+      totalPrice: 0,
     };
   }
 
@@ -23,13 +25,30 @@ class CartOverlay extends Component {
     this.setState({
       cart: store.getState().cart.cart,
       cartQty: store.getState().cart.cartQty,
+      currency: store.getState().currency.currentCurrency,
     });
 
     store.subscribe(() => {
       this.setState({
         cart: store.getState().cart.cart,
         cartQty: store.getState().cart.cartQty,
-      });
+        currency: store.getState().currency.currentCurrency,
+      }, () => setInterval(() => this.getTotalPrice(), 100));
+    });
+  }
+
+  getTotalPrice() {
+    const { products, cart, currency } = this.state;
+    let total = 0;
+
+    cart.forEach(({ id, qty }) => {
+      const product = products.find((p) => p.id === id);
+      const { amount } = product.prices.find(({ currency: { symbol } }) => symbol === currency);
+      total += (amount * qty);
+    });
+
+    this.setState({
+      totalPrice: total,
     });
   }
 
@@ -38,12 +57,12 @@ class CartOverlay extends Component {
 
     this.setState({
       products: categories[0].products,
-    });
+    }, () => this.getTotalPrice());
   }
 
   render() {
     const {
-      products, cart, cartQty,
+      products, cart, cartQty, currency, totalPrice,
     } = this.state;
 
     return (
@@ -57,7 +76,11 @@ class CartOverlay extends Component {
         </div>
 
         <div className="cart-overlay-footer">
-          <h6>Total</h6>
+          <h4 className="overlay-footer-text">
+            Total:
+            {' '}
+            <span>{`${currency}${(totalPrice * 1.21).toFixed(2)}`}</span>
+          </h4>
 
           <div>
             <Link to="/cart">
