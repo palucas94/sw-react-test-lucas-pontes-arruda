@@ -123,15 +123,16 @@ class CartProductCard extends Component {
                 className={origin === 'overlay' ? 'overlay-increment-button' : 'cart-increment-button'}
                 onClick={() => store.dispatch(incProductQty(selectedAttrs))}
               >
-                +
+                <div className={origin === 'overlay' ? 'overlay-horizontal-line' : 'horizontal-line'} />
+                <div className={origin === 'overlay' ? 'overlay-vertical-line' : 'vertical-line'} />
               </button>
-              <p className="cart-product-qty">{ qty }</p>
+              <p className={origin === 'overlay' ? 'overlay-product-qty' : 'cart-product-qty'}>{ qty }</p>
               <button
                 type="button"
                 className={origin === 'overlay' ? 'overlay-decrement-button' : 'cart-decrement-button'}
                 onClick={() => store.dispatch(decProductQty(selectedAttrs))}
               >
-                -
+                <div className={origin === 'overlay' ? 'overlay-horizontal-line' : 'horizontal-line'} />
               </button>
             </div>
 

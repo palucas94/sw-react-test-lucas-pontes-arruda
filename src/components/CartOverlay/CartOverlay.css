@@ -84,10 +84,37 @@
 
 .overlay-increment-button,
 .overlay-decrement-button {
+  position: relative;
   width: 24px;
   height: 24px;
 
   border: 1px solid var(--color-black);
+}
+
+.overlay-horizontal-line {
+  position: absolute;
+  left: 7px;
+
+  width: 8px;
+  border-top: 1px solid var(--color-black);
+}
+
+.overlay-vertical-line {
+  position: absolute;
+  left: 7px;
+
+  width: 8px;
+  border-top: 1px solid var(--color-black);
+
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+}
+
+.overlay-product-qty {
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 25.6px;
 }
 
 .overlay-img-buttons-wrapper {
@@ -99,6 +126,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
 }
 
