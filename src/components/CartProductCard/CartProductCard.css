@@ -38,6 +38,7 @@
 
 .cart-img-buttons-wrapper {
   width: 270px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,7 +49,7 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
 }
 
