@@ -51,14 +51,17 @@ class Header extends Component {
   }
 
   handleClickOutside({ target }) {
-    const dropdown = document.getElementById('dropdown');
-    const dropdownArrow = document.getElementById('dropdown-arrow');
-    const cartOverlay = document.getElementById('cart-overlay');
+    const currencyDropdown = document.getElementById('currency-dropdown');
+    const cartOverlayContainer = document.getElementById('cart-overlay-container');
 
-    const isClickInside = dropdown.contains(target)
-      || dropdownArrow.contains(target) || cartOverlay.contains(target);
+    const isClickInside = currencyDropdown.contains(target)
+      || cartOverlayContainer.contains(target);
 
     if (!isClickInside) {
+      const dropdown = document.getElementById('dropdown');
+      const cartOverlay = document.getElementById('cart-overlay');
+      const dropdownArrow = document.getElementById('dropdown-arrow');
+
       cartOverlay.classList.remove('show-cart-overlay');
       dropdown.classList.remove('show-currencies');
       dropdownArrow.classList.remove('up');
@@ -193,7 +196,7 @@ class Header extends Component {
         <img src={shoppingBag} alt="Shopping bag" className="icon-shoppingbag" />
 
         <div className="cart-currency-container">
-          <div className="currency-dropdown">
+          <div id="currency-dropdown" className="currency-dropdown">
             <button
               type="button"
               onClick={this.showCurrencies}
@@ -217,7 +220,7 @@ class Header extends Component {
             </div>
           </div>
 
-          <div className="cart-overlay-container">
+          <div id="cart-overlay-container" className="cart-overlay-container">
             <button className="cart-btn" type="button" onClick={this.showCartOverlay}>
               { cartQty > 0 && <div className="cart-item-qty">{cartQty}</div>}
               <img src={emptycart} alt="cart" className="icon-emptycart" />
