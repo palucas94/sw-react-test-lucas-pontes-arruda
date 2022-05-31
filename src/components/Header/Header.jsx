@@ -119,16 +119,23 @@ class Header extends Component {
   // eslint-disable-next-line class-methods-use-this
   showCurrencies() {
     const dropdown = document.getElementById('dropdown');
-    dropdown.classList.toggle('show-currencies');
-
     const dropdownArrow = document.getElementById('dropdown-arrow');
+    const cartOverlay = document.getElementById('cart-overlay');
+
+    dropdown.classList.toggle('show-currencies');
     dropdownArrow.classList.toggle('up');
+    cartOverlay.classList.remove('show-cart-overlay');
   }
 
   // eslint-disable-next-line class-methods-use-this
   showCartOverlay() {
     const cartOverlay = document.getElementById('cart-overlay');
+    const dropdown = document.getElementById('dropdown');
+    const dropdownArrow = document.getElementById('dropdown-arrow');
+
     cartOverlay.classList.toggle('show-cart-overlay');
+    dropdown.classList.remove('show-currencies');
+    dropdownArrow.classList.remove('up');
   }
 
   currencySelected({ target: { value } }) {
