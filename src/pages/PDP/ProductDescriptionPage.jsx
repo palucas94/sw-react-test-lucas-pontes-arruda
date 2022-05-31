@@ -1,10 +1,13 @@
 import React, { PureComponent } from 'react';
 import { Interweave } from 'interweave';
-import Header from '../../components/Header/Header';
+
 import client from '../../services/apolloClient/client';
 import GET_PRODUCT_BY_ID from '../../services/graphqlQueries/getProductByIdQuery';
+
 import store from '../../redux/store';
 import { addToCart, setCurrentProductAttributes, setInitialProductAttributes } from '../../redux/reducers/cartSlice';
+
+import Header from '../../components/Header/Header';
 import './ProductDescriptionPage.css';
 
 class ProductDescriptionPage extends PureComponent {
@@ -14,25 +17,18 @@ class ProductDescriptionPage extends PureComponent {
     this.state = {
       product: [],
       currency: '',
-      dataError: false,
       selectedImg: '',
       currentAttrs: [],
+      dataError: false,
     };
   }
 
   componentDidMount() {
     this.fetchProduct();
 
-    const currentCurrency = JSON.parse(localStorage.getItem('swCurrency'));
-    if (currentCurrency) {
-      this.setState({
-        currency: currentCurrency,
-      });
-    } else {
-      this.setState({
-        currency: '$',
-      });
-    }
+    this.setState({
+      currency: store.getState().currency.currentCurrency,
+    });
 
     store.subscribe(() => {
       this.setState({
@@ -61,13 +57,13 @@ class ProductDescriptionPage extends PureComponent {
     return 'attr-option';
   }
 
-  changeSelectedImg = ({ target: { src } }) => {
+  changeSelectedImg({ target: { src } }) {
     this.setState({
       selectedImg: src,
     });
-  };
+  }
 
-  fetchProduct = async () => {
+  async fetchProduct() {
     const id = window.location.pathname.split('/')[2].toString();
 
     try {
@@ -86,7 +82,7 @@ class ProductDescriptionPage extends PureComponent {
         dataError: true,
       });
     }
-  };
+  }
 
   render() {
     const {
@@ -96,14 +92,14 @@ class ProductDescriptionPage extends PureComponent {
       name, brand, description, gallery, attributes, prices, inStock,
     } = product;
 
-    if (dataError) return <div>ERROOOO</div>;
+    if (dataError) return <p>Something went wrong. Please reload the page...</p>;
 
     return (
       <div>
         <Header />
 
         <main className="product-description-container">
-          <div className="product-imgs-container">
+          <section className="product-imgs-container">
             <div className="product-imgs-wrapper">
               {gallery && gallery.map((image) => (
                 <button className="product-imgs" type="button" onClick={(e) => this.changeSelectedImg(e)}>
@@ -116,10 +112,10 @@ class ProductDescriptionPage extends PureComponent {
               ))}
             </div>
             <img className="selected-img" src={selectedImg} alt={name} />
-          </div>
+          </section>
 
-          <div>
-            <h3 className="pdp-product-brand">{brand}</h3>
+          <section>
+            <h2 className="pdp-product-brand">{brand}</h2>
             <h3 className="pdp-product-name">{name}</h3>
 
             {attributes && attributes.map(({ name: attrName, type, items }) => (
@@ -175,7 +171,7 @@ class ProductDescriptionPage extends PureComponent {
                 <Interweave content={description} />
               </div>
             )}
-          </div>
+          </section>
         </main>
       </div>
     );
