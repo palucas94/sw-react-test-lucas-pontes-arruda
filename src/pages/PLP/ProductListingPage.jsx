@@ -1,10 +1,7 @@
 import React, { PureComponent } from 'react';
+import store from '../../redux/store';
 import Header from '../../components/Header/Header';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import { setAllProducts } from '../../redux/reducers/cartSlice';
-import store from '../../redux/store';
-import client from '../../services/apolloClient/client';
-import GET_PRODUCTS from '../../services/graphqlQueries/getProductsQuery';
 import './ProductListingPage.css';
 
 class ProductListingPage extends PureComponent {
@@ -12,46 +9,27 @@ class ProductListingPage extends PureComponent {
     super(props);
 
     this.state = {
-      categories: [],
+      products: [],
       category: '',
-      dataError: false,
     };
   }
 
   componentDidMount() {
-    this.fetchProducts();
-
     this.setState({
+      products: store.getState().cart.allProducts,
       category: store.getState().category.currentCategory,
     });
 
     store.subscribe(() => {
       this.setState({
+        products: store.getState().cart.allProducts,
         category: store.getState().category.currentCategory,
       });
     });
   }
 
-  fetchProducts = async () => {
-    try {
-      const { data: { categories } } = await client.query({ query: GET_PRODUCTS });
-
-      store.dispatch(setAllProducts(categories));
-
-      this.setState({
-        categories,
-      });
-    } catch (e) {
-      this.setState({
-        dataError: true,
-      });
-    }
-  };
-
   render() {
-    const { category, categories, dataError } = this.state;
-
-    if (dataError) return <h2>Something went wrong.. Please reload the page</h2>;
+    const { category, products } = this.state;
 
     return (
       <div>
@@ -60,11 +38,11 @@ class ProductListingPage extends PureComponent {
         <h1 className="category-name">{ category }</h1>
 
         <main className="product-listing-container">
-          { categories.map(({ name, products }) => (
-            name === category && products.map((product) => (
-              <ProductCard key={product.name} product={product} />
-            ))
-          ))}
+          { category === 'all'
+            ? products.map((product) => <ProductCard key={product.name} product={product} />)
+            : products.map((product) => (
+              product.category === category && <ProductCard key={product.name} product={product} />
+            ))}
         </main>
       </div>
     );

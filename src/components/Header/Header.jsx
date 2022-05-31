@@ -1,14 +1,16 @@
+/* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import CartOverlay from '../CartOverlay/CartOverlay';
 
 import store from '../../redux/store';
 import { changeCategory } from '../../redux/reducers/categorySlice';
 import { changeCurrency } from '../../redux/reducers/currencySlice';
-import { recoverSavedCart } from '../../redux/reducers/cartSlice';
+import { recoverSavedCart, setAllProducts } from '../../redux/reducers/cartSlice';
 
 import client from '../../services/apolloClient/client';
 import GET_CATEGORIES from '../../services/graphqlQueries/getCategoriesQuery';
 import GET_CURRENCIES from '../../services/graphqlQueries/getCurrenciesQuery';
+import GET_PRODUCTS from '../../services/graphqlQueries/getProductsQuery';
 
 import shoppingBag from '../../icons/shoppingbag.png';
 import emptycart from '../../icons/emptycart.png';
@@ -32,6 +34,7 @@ class Header extends Component {
   componentDidMount() {
     this.fetchCategories();
     this.fetchCurrencies();
+    this.fetchProducts();
     this.getLocalStorage();
 
     this.setState({
@@ -45,29 +48,7 @@ class Header extends Component {
     });
   }
 
-  fetchCategories = async () => {
-    try {
-      const { data: { categories } } = await client.query({ query: GET_CATEGORIES });
-      this.setState({ categories });
-    } catch (e) {
-      this.setState({
-        dataError: true,
-      });
-    }
-  };
-
-  fetchCurrencies = async () => {
-    try {
-      const { data: { currencies } } = await client.query({ query: GET_CURRENCIES });
-      this.setState({ currencies });
-    } catch (e) {
-      this.setState({
-        dataError: true,
-      });
-    }
-  };
-
-  getLocalStorage = () => {
+  getLocalStorage() {
     const currentCategory = JSON.parse(localStorage.getItem('swCategory'));
     if (currentCategory) {
       store.dispatch(changeCategory(currentCategory));
@@ -98,25 +79,29 @@ class Header extends Component {
     if (savedCart) {
       store.dispatch(recoverSavedCart(savedCart));
     }
-  };
+  }
 
-  changeCurrentCurrency(value) {
-    localStorage.setItem('swCurrency', JSON.stringify(value));
-    store.dispatch(changeCurrency(value));
+  changeCurrentCurrency(currency) {
+    localStorage.setItem('swCurrency', JSON.stringify(currency));
+    store.dispatch(changeCurrency(currency));
     this.setState({
-      currency: value,
+      currency,
     });
   }
 
-  changeCurrentCategory(value) {
-    localStorage.setItem('swCategory', JSON.stringify(value));
-    store.dispatch(changeCategory(value));
+  changeCurrentCategory(category) {
+    localStorage.setItem('swCategory', JSON.stringify(category));
+    store.dispatch(changeCategory(category));
     this.setState({
-      category: value,
+      category,
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  currencySelected({ target: { value } }) {
+    this.changeCurrentCurrency(value);
+    this.showCurrencies();
+  }
+
   showCurrencies() {
     const dropdown = document.getElementById('dropdown');
     const dropdownArrow = document.getElementById('dropdown-arrow');
@@ -127,7 +112,6 @@ class Header extends Component {
     cartOverlay.classList.remove('show-cart-overlay');
   }
 
-  // eslint-disable-next-line class-methods-use-this
   showCartOverlay() {
     const cartOverlay = document.getElementById('cart-overlay');
     const dropdown = document.getElementById('dropdown');
@@ -138,9 +122,31 @@ class Header extends Component {
     dropdownArrow.classList.remove('up');
   }
 
-  currencySelected({ target: { value } }) {
-    this.changeCurrentCurrency(value);
-    this.showCurrencies();
+  async fetchCategories() {
+    try {
+      const { data: { categories } } = await client.query({ query: GET_CATEGORIES });
+      this.setState({ categories });
+    } catch (e) {
+      this.setState({
+        dataError: true,
+      });
+    }
+  }
+
+  async fetchCurrencies() {
+    try {
+      const { data: { currencies } } = await client.query({ query: GET_CURRENCIES });
+      this.setState({ currencies });
+    } catch (e) {
+      this.setState({
+        dataError: true,
+      });
+    }
+  }
+
+  async fetchProducts() {
+    const { data: { categories } } = await client.query({ query: GET_PRODUCTS });
+    store.dispatch(setAllProducts(categories));
   }
 
   render() {
@@ -148,10 +154,11 @@ class Header extends Component {
       categories, currencies, currency, category, cartQty, dataError,
     } = this.state;
 
-    if (dataError) return <h2>Something went wrong.. Please reload the page</h2>;
+    if (dataError) return <p>Something went wrong.. Please reload the page</p>;
 
     return (
       <header className="header-container">
+
         <nav>
           { categories.map(({ name }) => (
             <button
@@ -166,7 +173,7 @@ class Header extends Component {
           ))}
         </nav>
 
-        <img src={shoppingBag} alt="shoppingbag" className="icon-shoppingbag" />
+        <img src={shoppingBag} alt="Shopping bag" className="icon-shoppingbag" />
 
         <div className="cart-currency-container">
           <div className="currency-dropdown">
@@ -202,8 +209,8 @@ class Header extends Component {
               <CartOverlay />
             </div>
           </div>
-
         </div>
+
       </header>
     );
   }

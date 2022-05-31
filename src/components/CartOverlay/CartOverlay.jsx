@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import CartProductCard from '../CartProductCard/CartProductCard';
 import store from '../../redux/store';
-import client from '../../services/apolloClient/client';
-import GET_PRODUCTS from '../../services/graphqlQueries/getProductsQuery';
 import './CartOverlay.css';
 
 class CartOverlay extends Component {
@@ -20,9 +18,8 @@ class CartOverlay extends Component {
   }
 
   componentDidMount() {
-    this.fetchProducts();
-
     this.setState({
+      products: store.getState().cart.allProducts,
       cart: store.getState().cart.cart,
       cartQty: store.getState().cart.cartQty,
       currency: store.getState().currency.currentCurrency,
@@ -30,10 +27,11 @@ class CartOverlay extends Component {
 
     store.subscribe(() => {
       this.setState({
+        products: store.getState().cart.allProducts,
         cart: store.getState().cart.cart,
         cartQty: store.getState().cart.cartQty,
         currency: store.getState().currency.currentCurrency,
-      }, () => setInterval(() => this.getTotalPrice(), 100));
+      }, () => setInterval(() => this.getTotalPrice(), 300));
     });
   }
 
@@ -50,14 +48,6 @@ class CartOverlay extends Component {
     this.setState({
       totalPrice: total,
     });
-  }
-
-  async fetchProducts() {
-    const { data: { categories } } = await client.query({ query: GET_PRODUCTS });
-
-    this.setState({
-      products: categories[0].products,
-    }, () => this.getTotalPrice());
   }
 
   render() {
