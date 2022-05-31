@@ -66,6 +66,11 @@ class Header extends Component {
       dropdown.classList.remove('show-currencies');
       dropdownArrow.classList.remove('up');
     }
+
+    if (!isClickInside || currencyDropdown.contains(target)) {
+      const backgroundCover = document.getElementById('background-cover');
+      backgroundCover.classList.remove('dark');
+    }
   }
 
   getLocalStorage() {
@@ -136,10 +141,12 @@ class Header extends Component {
     const cartOverlay = document.getElementById('cart-overlay');
     const dropdown = document.getElementById('dropdown');
     const dropdownArrow = document.getElementById('dropdown-arrow');
+    const backgroundCover = document.getElementById('background-cover');
 
     cartOverlay.classList.toggle('show-cart-overlay');
     dropdown.classList.remove('show-currencies');
     dropdownArrow.classList.remove('up');
+    backgroundCover.classList.toggle('dark');
   }
 
   async fetchCategories() {

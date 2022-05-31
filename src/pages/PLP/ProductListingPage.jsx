@@ -35,14 +35,18 @@ class ProductListingPage extends PureComponent {
       <div>
         <Header />
 
-        <h1 className="category-name">{ category }</h1>
+        <div id="background-cover" />
 
-        <main className="product-listing-container">
-          { category === 'all'
-            ? products.map((product) => <ProductCard key={product.name} product={product} />)
-            : products.map((product) => (
-              product.category === category && <ProductCard key={product.name} product={product} />
-            ))}
+        <main>
+          <h1 className="category-name">{ category }</h1>
+
+          <section className="product-listing-container">
+            { category === 'all'
+              ? products.map((p) => <ProductCard key={p.name} product={p} />)
+              : products.map((p) => (
+                p.category === category && <ProductCard key={p.name} product={p} />
+              ))}
+          </section>
         </main>
       </div>
     );

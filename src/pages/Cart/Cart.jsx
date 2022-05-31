@@ -58,6 +58,9 @@ class Cart extends Component {
     return (
       <div>
         <Header />
+
+        <div id="background-cover" />
+
         <main className="cart-page-container">
           <h1 className="cart-title">Cart</h1>
           <div className="cart-separating-line" />

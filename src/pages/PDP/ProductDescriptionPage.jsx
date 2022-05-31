@@ -98,6 +98,8 @@ class ProductDescriptionPage extends PureComponent {
       <div>
         <Header />
 
+        <div id="background-cover" />
+
         <main className="product-description-container">
           <section className="product-imgs-container">
             <div className="product-imgs-wrapper">

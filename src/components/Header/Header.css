@@ -129,7 +129,7 @@ nav {
 
   position: absolute;
   left: -13px;
-  top: 65px;
+  top: 45px;
 
   width: 114px;
 
@@ -158,4 +158,15 @@ nav {
 .show-currencies,
 .show-cart-overlay {
   display: block;
+}
+
+.dark {
+  position: absolute;
+  top: 68px;
+  width: 100%;
+  min-height: 100%;
+  size: fill;
+  z-index: 2;
+  background: #393748;
+  opacity: 0.22;
 }
