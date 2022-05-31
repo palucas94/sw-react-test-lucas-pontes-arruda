@@ -32,6 +32,8 @@ class Header extends Component {
   }
 
   componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+
     this.fetchCategories();
     this.fetchCurrencies();
     this.fetchProducts();
@@ -46,6 +48,21 @@ class Header extends Component {
         cartQty: store.getState().cart.cartQty,
       });
     });
+  }
+
+  handleClickOutside({ target }) {
+    const dropdown = document.getElementById('dropdown');
+    const dropdownArrow = document.getElementById('dropdown-arrow');
+    const cartOverlay = document.getElementById('cart-overlay');
+
+    const isClickInside = dropdown.contains(target)
+      || dropdownArrow.contains(target) || cartOverlay.contains(target);
+
+    if (!isClickInside) {
+      cartOverlay.classList.remove('show-cart-overlay');
+      dropdown.classList.remove('show-currencies');
+      dropdownArrow.classList.remove('up');
+    }
   }
 
   getLocalStorage() {
