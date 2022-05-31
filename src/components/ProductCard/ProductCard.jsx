@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
-import { addToCartFromPLP } from '../../redux/reducers/cartSlice';
 import store from '../../redux/store';
+import { addToCartFromPLP } from '../../redux/reducers/cartSlice';
 import emptycart from '../../icons/emptycart-white.png';
 import './ProductCard.css';
 
@@ -16,16 +16,9 @@ class ProductCard extends PureComponent {
   }
 
   componentDidMount() {
-    const currentCurrency = JSON.parse(localStorage.getItem('swCurrency'));
-    if (currentCurrency) {
-      this.setState({
-        currency: currentCurrency,
-      });
-    } else {
-      this.setState({
-        currency: '$',
-      });
-    }
+    this.setState({
+      currency: store.getState().currency.currentCurrency,
+    });
 
     store.subscribe(() => {
       this.setState({
