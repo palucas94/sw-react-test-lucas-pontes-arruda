@@ -70,6 +70,7 @@ class Header extends Component {
     if (!isClickInside || currencyDropdown.contains(target)) {
       const backgroundCover = document.getElementById('background-cover');
       backgroundCover.classList.remove('dark');
+      document.body.classList.remove('overflow-hidden');
     }
   }
 
@@ -147,6 +148,7 @@ class Header extends Component {
     dropdown.classList.remove('show-currencies');
     dropdownArrow.classList.remove('up');
     backgroundCover.classList.toggle('dark');
+    document.body.classList.toggle('overflow-hidden');
   }
 
   async fetchCategories() {

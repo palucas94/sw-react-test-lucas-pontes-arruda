@@ -164,9 +164,12 @@ nav {
   position: absolute;
   top: 68px;
   width: 100%;
-  min-height: 100%;
-  size: fill;
+  height: 100vh;
   z-index: 2;
   background: #393748;
   opacity: 0.22;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
