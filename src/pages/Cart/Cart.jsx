@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { Component } from 'react';
 import store from '../../redux/store';
 import Header from '../../components/Header/Header';
@@ -65,8 +66,8 @@ class Cart extends Component {
           <h1 className="cart-title">Cart</h1>
           <div className="cart-separating-line" />
 
-          { cart.length && products.length && cart.map((p) => (
-            <CartProductCard selectedAttrs={p} />
+          { cart.length && products.length && cart.map((p, i) => (
+            <CartProductCard key={p.id + i} selectedAttrs={p} />
           ))}
 
           <h4 className="cart-footer-text">

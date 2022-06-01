@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import CartProductCard from '../CartProductCard/CartProductCard';
@@ -60,8 +61,8 @@ class CartOverlay extends Component {
         <h1 className="cart-overlay-title">{`My bag, ${cartQty} items`}</h1>
 
         <div className="cart-overlay-wrapper">
-          { cart.length && products.length && cart.map((p) => (
-            <CartProductCard origin="overlay" selectedAttrs={p} />
+          { cart.length && products.length && cart.map((p, i) => (
+            <CartProductCard key={p.id + i} origin="overlay" selectedAttrs={p} />
           ))}
         </div>
 
