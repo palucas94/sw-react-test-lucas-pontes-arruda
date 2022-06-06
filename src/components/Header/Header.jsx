@@ -207,12 +207,13 @@ class Header extends Component {
         <div className="cart-currency-container">
           <div id="currency-dropdown" className="currency-dropdown">
             <button
+              data-testid="current-currency"
               type="button"
               onClick={this.showCurrencies}
               className="currency-dropdown-btn"
             >
               {currency}
-              <div id="dropdown-arrow" className="currency-dropdown-arrow" />
+              <div data-testid="dropdown-arrow" id="dropdown-arrow" className="currency-dropdown-arrow" />
             </button>
 
             <div id="dropdown" className="currency-dropdown-content">
@@ -232,7 +233,7 @@ class Header extends Component {
           <div id="cart-overlay-container" className="cart-overlay-container">
             <button className="cart-btn" type="button" onClick={this.showCartOverlay}>
               { cartQty > 0 && <div className="cart-item-qty">{cartQty}</div>}
-              <img src={emptycart} alt="cart" className="icon-emptycart" />
+              <img data-testid="cart-icon" src={emptycart} alt="cart" className="icon-emptycart" />
             </button>
             <div id="cart-overlay" className="cart-overlay-content">
               <CartOverlay />
