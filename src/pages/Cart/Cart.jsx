@@ -19,6 +19,8 @@ class Cart extends Component {
   }
 
   componentDidMount() {
+    document.body.classList.remove('overflow-hidden');
+
     this.setState({
       products: store.getState().cart.allProducts,
       cart: store.getState().cart.cart,

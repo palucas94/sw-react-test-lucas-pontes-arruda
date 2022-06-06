@@ -60,11 +60,13 @@ class CartOverlay extends Component {
       <div>
         <h1 className="cart-overlay-title">{`My bag, ${cartQty} items`}</h1>
 
-        <div className="cart-overlay-wrapper">
-          { cart.length && products.length && cart.map((p, i) => (
-            <CartProductCard key={p.id + i} origin="overlay" selectedAttrs={p} />
-          ))}
-        </div>
+        { cart.length === 0 ? <div /> : products.length && (
+          <div className="cart-overlay-wrapper">
+            {cart.map((p, i) => (
+              <CartProductCard key={p.id + i} origin="overlay" selectedAttrs={p} />
+            ))}
+          </div>
+        )}
 
         <div className="cart-overlay-footer">
           <h4 className="overlay-footer-text">
