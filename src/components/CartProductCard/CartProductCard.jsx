@@ -95,7 +95,7 @@ class CartProductCard extends Component {
                   key={symbol}
                   className={origin === 'overlay' ? 'overlay-product-price' : 'cart-product-price'}
                 >
-                  {`${symbol}${(amount * qty).toFixed(2)}`}
+                  {`${symbol}${amount.toFixed(2)}`}
                 </p>
                 )))}
 
