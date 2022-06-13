@@ -8,6 +8,7 @@ export const categorySlice = createSlice({
   },
   reducers: {
     changeCategory: (state, action) => {
+      localStorage.setItem('swCategory', JSON.stringify(action.payload));
       state.currentCategory = action.payload;
     },
   },

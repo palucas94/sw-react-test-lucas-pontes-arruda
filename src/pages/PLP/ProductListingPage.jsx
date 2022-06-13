@@ -3,6 +3,7 @@ import store from '../../redux/store';
 import Header from '../../components/Header/Header';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import './ProductListingPage.css';
+import { changeCategory } from '../../redux/reducers/categorySlice';
 
 class ProductListingPage extends PureComponent {
   constructor(props) {
@@ -15,6 +16,9 @@ class ProductListingPage extends PureComponent {
   }
 
   componentDidMount() {
+    const category = window.location.pathname.split('/')[1].toString();
+    store.dispatch(changeCategory(category));
+
     this.setState({
       products: store.getState().cart.allProducts,
       category: store.getState().category.currentCategory,

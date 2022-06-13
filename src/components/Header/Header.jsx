@@ -1,9 +1,9 @@
 /* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import CartOverlay from '../CartOverlay/CartOverlay';
 
 import store from '../../redux/store';
-import { changeCategory } from '../../redux/reducers/categorySlice';
 import { changeCurrency } from '../../redux/reducers/currencySlice';
 import { recoverSavedCart, setAllProducts } from '../../redux/reducers/cartSlice';
 
@@ -16,6 +16,7 @@ import shoppingBag from '../../icons/shoppingbag.png';
 import emptycart from '../../icons/emptycart.png';
 import './Header.css';
 import '../CartOverlay/CartOverlay.css';
+import { changeCategory } from '../../redux/reducers/categorySlice';
 
 class Header extends Component {
   constructor() {
@@ -40,11 +41,13 @@ class Header extends Component {
     this.getLocalStorage();
 
     this.setState({
+      category: store.getState().category.currentCategory,
       cartQty: store.getState().cart.cartQty,
     });
 
     store.subscribe(() => {
       this.setState({
+        category: store.getState().category.currentCategory,
         cartQty: store.getState().cart.cartQty,
       });
     });
@@ -78,14 +81,8 @@ class Header extends Component {
     const currentCategory = JSON.parse(localStorage.getItem('swCategory'));
     if (currentCategory) {
       store.dispatch(changeCategory(currentCategory));
-      this.setState({
-        category: currentCategory,
-      });
     } else {
-      localStorage.setItem('swCategory', JSON.stringify('all'));
-      this.setState({
-        category: 'all',
-      });
+      store.dispatch(changeCategory('all'));
     }
 
     const currentCurrency = JSON.parse(localStorage.getItem('swCurrency'));
@@ -112,14 +109,6 @@ class Header extends Component {
     store.dispatch(changeCurrency(currency));
     this.setState({
       currency,
-    });
-  }
-
-  changeCurrentCategory(category) {
-    localStorage.setItem('swCategory', JSON.stringify(category));
-    store.dispatch(changeCategory(category));
-    this.setState({
-      category,
     });
   }
 
@@ -190,15 +179,15 @@ class Header extends Component {
 
         <nav>
           { categories.map(({ name }) => (
-            <button
+            <Link
+              to={`/${name}`}
+              onClick={() => store.dispatch(changeCategory(name))}
               value={name}
-              type="button"
-              onClick={({ target: { value } }) => this.changeCurrentCategory(value)}
               key={name}
               className={category === name ? 'category selected-category' : 'category'}
             >
               {name}
-            </button>
+            </Link>
           ))}
         </nav>
 
