@@ -18,7 +18,6 @@ class ProductListingPage extends PureComponent {
   }
 
   componentDidMount() {
-    const { category } = this.state;
     const urlCategory = window.location.pathname.split('/')[1].toString();
     store.dispatch(changeCategory(urlCategory));
     this.fetchProducts(urlCategory);
@@ -30,7 +29,10 @@ class ProductListingPage extends PureComponent {
     store.subscribe(() => {
       this.setState({
         category: store.getState().category.currentCategory,
-      }, () => this.fetchProducts(category));
+      }, () => {
+        const { category } = this.state;
+        this.fetchProducts(category);
+      });
     });
   }
 
