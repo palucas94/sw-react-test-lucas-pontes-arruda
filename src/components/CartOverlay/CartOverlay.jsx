@@ -10,7 +10,6 @@ class CartOverlay extends Component {
     super();
 
     this.state = {
-      products: [],
       cart: [],
       cartQty: 0,
       currency: '',
@@ -20,7 +19,6 @@ class CartOverlay extends Component {
 
   componentDidMount() {
     this.setState({
-      products: store.getState().cart.allProducts,
       cart: store.getState().cart.cart,
       cartQty: store.getState().cart.cartQty,
       currency: store.getState().currency.currentCurrency,
@@ -28,7 +26,6 @@ class CartOverlay extends Component {
 
     store.subscribe(() => {
       this.setState({
-        products: store.getState().cart.allProducts,
         cart: store.getState().cart.cart,
         cartQty: store.getState().cart.cartQty,
         currency: store.getState().currency.currentCurrency,
@@ -37,12 +34,11 @@ class CartOverlay extends Component {
   }
 
   getTotalPrice() {
-    const { products, cart, currency } = this.state;
+    const { cart, currency } = this.state;
     let total = 0;
 
-    cart.forEach(({ id, qty }) => {
-      const product = products.find((p) => p.id === id);
-      const { amount } = product.prices.find(({ currency: { symbol } }) => symbol === currency);
+    cart.forEach(({ qty, prices }) => {
+      const { amount } = prices.find(({ currency: { symbol } }) => symbol === currency);
       total += (amount * qty);
     });
 
@@ -53,14 +49,14 @@ class CartOverlay extends Component {
 
   render() {
     const {
-      products, cart, cartQty, currency, totalPrice,
+      cart, cartQty, currency, totalPrice,
     } = this.state;
 
     return (
       <div>
         <h1 className="cart-overlay-title">{`My bag, ${cartQty} items`}</h1>
 
-        { cart.length === 0 ? <div /> : products.length && (
+        { cart.length === 0 ? <div /> : (
           <div className="cart-overlay-wrapper">
             {cart.map((p, i) => (
               <CartProductCard key={p.id + i} origin="overlay" selectedAttrs={p} />

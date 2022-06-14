@@ -10,7 +10,6 @@ class Cart extends Component {
     super();
 
     this.state = {
-      products: [],
       cart: [],
       cartQty: 0,
       currency: '',
@@ -22,15 +21,13 @@ class Cart extends Component {
     document.body.classList.remove('overflow-hidden');
 
     this.setState({
-      products: store.getState().cart.allProducts,
       cart: store.getState().cart.cart,
       cartQty: store.getState().cart.cartQty,
       currency: store.getState().currency.currentCurrency,
-    });
+    }, () => this.getTotalPrice());
 
     store.subscribe(() => {
       this.setState({
-        products: store.getState().cart.allProducts,
         cart: store.getState().cart.cart,
         cartQty: store.getState().cart.cartQty,
         currency: store.getState().currency.currentCurrency,
@@ -39,12 +36,11 @@ class Cart extends Component {
   }
 
   getTotalPrice() {
-    const { products, cart, currency } = this.state;
+    const { cart, currency } = this.state;
     let total = 0;
 
-    cart.forEach(({ id, qty }) => {
-      const product = products.find((p) => p.id === id);
-      const { amount } = product.prices.find(({ currency: { symbol } }) => symbol === currency);
+    cart.forEach(({ qty, prices }) => {
+      const { amount } = prices.find(({ currency: { symbol } }) => symbol === currency);
       total += (amount * qty);
     });
 
@@ -55,7 +51,7 @@ class Cart extends Component {
 
   render() {
     const {
-      products, cart, cartQty, currency, totalPrice,
+      cart, cartQty, currency, totalPrice,
     } = this.state;
 
     return (
@@ -68,7 +64,7 @@ class Cart extends Component {
           <h1 className="cart-title">Cart</h1>
           <div className="cart-separating-line" />
 
-          { cart.length && products.length && cart.map((p, i) => (
+          { cart.length && cart.map((p, i) => (
             <CartProductCard key={p.id + i} selectedAttrs={p} />
           ))}
 

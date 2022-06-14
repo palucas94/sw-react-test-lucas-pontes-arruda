@@ -4,21 +4,16 @@ import { createSlice } from '@reduxjs/toolkit';
 export const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    allProducts: [],
     currentProduct: {
       id: '',
       attributes: [],
+      prices: [],
       qty: 1,
     },
     cart: [],
     cartQty: 0,
   },
   reducers: {
-    setAllProducts: (state, action) => {
-      const { products } = action.payload[0];
-      state.allProducts = products;
-    },
-
     setInitialProductAttributes: (state, action) => {
       const { attributes } = state.currentProduct;
       const { id, product } = action.payload;
@@ -62,12 +57,12 @@ export const cartSlice = createSlice({
     },
 
     addToCartFromPLP: (state, action) => {
-      const id = action.payload;
-      const { allProducts, currentProduct } = state;
-      const { attributes: productAttr } = allProducts.find((p) => p.id === id);
+      const { id, prices, attributes: productAttr } = action.payload;
+      const { currentProduct } = state;
 
       currentProduct.attributes.length = 0;
-      state.currentProduct.id = id;
+      currentProduct.id = id;
+      currentProduct.prices = prices;
 
       if (productAttr.length) {
         productAttr.forEach(({ name, type, items }) => (
@@ -119,7 +114,7 @@ export const cartSlice = createSlice({
 });
 
 export const {
-  setAllProducts, addToCart, addToCartFromPLP, recoverSavedCart,
+  addToCart, addToCartFromPLP, recoverSavedCart,
   setInitialProductAttributes, setCurrentProductAttributes,
   incProductQty, decProductQty,
 } = cartSlice.actions;

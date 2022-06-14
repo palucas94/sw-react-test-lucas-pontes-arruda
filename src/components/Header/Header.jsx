@@ -5,12 +5,11 @@ import CartOverlay from '../CartOverlay/CartOverlay';
 
 import store from '../../redux/store';
 import { changeCurrency } from '../../redux/reducers/currencySlice';
-import { recoverSavedCart, setAllProducts } from '../../redux/reducers/cartSlice';
+import { recoverSavedCart } from '../../redux/reducers/cartSlice';
 
 import client from '../../services/apolloClient/client';
 import GET_CATEGORIES from '../../services/graphqlQueries/getCategoriesQuery';
 import GET_CURRENCIES from '../../services/graphqlQueries/getCurrenciesQuery';
-import GET_PRODUCTS from '../../services/graphqlQueries/getProductsQuery';
 
 import shoppingBag from '../../icons/shoppingbag.png';
 import emptycart from '../../icons/emptycart.png';
@@ -37,7 +36,6 @@ class Header extends Component {
 
     this.fetchCategories();
     this.fetchCurrencies();
-    this.fetchProducts();
     this.getLocalStorage();
 
     this.setState({
@@ -78,13 +76,6 @@ class Header extends Component {
   }
 
   getLocalStorage() {
-    const currentCategory = JSON.parse(localStorage.getItem('swCategory'));
-    if (currentCategory) {
-      store.dispatch(changeCategory(currentCategory));
-    } else {
-      store.dispatch(changeCategory('all'));
-    }
-
     const currentCurrency = JSON.parse(localStorage.getItem('swCurrency'));
     if (currentCurrency) {
       store.dispatch(changeCurrency(currentCurrency));
@@ -160,11 +151,6 @@ class Header extends Component {
         dataError: true,
       });
     }
-  }
-
-  async fetchProducts() {
-    const { data: { categories } } = await client.query({ query: GET_PRODUCTS });
-    store.dispatch(setAllProducts(categories));
   }
 
   render() {

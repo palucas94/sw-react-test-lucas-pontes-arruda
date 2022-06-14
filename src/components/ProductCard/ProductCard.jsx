@@ -31,7 +31,7 @@ class ProductCard extends PureComponent {
     const { currency } = this.state;
     const {
       product: {
-        id, brand, name, inStock, gallery, prices,
+        id, brand, name, inStock, gallery, prices, attributes,
       },
     } = this.props;
 
@@ -56,7 +56,7 @@ class ProductCard extends PureComponent {
         <button
           type="button"
           className="plp-add-to-cart-btn"
-          onClick={() => store.dispatch(addToCartFromPLP(id))}
+          onClick={() => store.dispatch(addToCartFromPLP({ id, attributes, prices }))}
         >
           <img src={emptycart} alt="add to cart button" />
         </button>
