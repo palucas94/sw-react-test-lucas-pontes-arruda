@@ -18,6 +18,8 @@
 .plp-img {
   width: 354px;
   height: 330px;
+
+  object-fit: contain;
 }
 
 .img-out-of-stock {
