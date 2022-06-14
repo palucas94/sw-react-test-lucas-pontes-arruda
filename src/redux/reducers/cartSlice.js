@@ -17,10 +17,11 @@ export const cartSlice = createSlice({
     setInitialProductAttributes: (state, action) => {
       const { attributes } = state.currentProduct;
       const { id, product } = action.payload;
-      const { attributes: productAttr } = product;
+      const { attributes: productAttr, prices } = product;
 
       attributes.length = 0;
       state.currentProduct.id = id;
+      state.currentProduct.prices = prices;
 
       if (productAttr.length) {
         productAttr.forEach(({ name, type, items }) => (
