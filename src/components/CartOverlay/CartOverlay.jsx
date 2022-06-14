@@ -68,7 +68,7 @@ class CartOverlay extends Component {
           <h4 className="overlay-footer-text">
             Total:
             {' '}
-            <span>{`${currency}${(totalPrice * 1.21).toFixed(2)}`}</span>
+            <span>{`${currency}${totalPrice.toFixed(2)}`}</span>
           </h4>
 
           <div>

@@ -83,7 +83,7 @@ class Cart extends Component {
           <h4 className="cart-footer-text">
             Total:
             {' '}
-            <span>{`${currency}${(totalPrice * 1.21).toFixed(2)}`}</span>
+            <span>{`${currency}${totalPrice.toFixed(2)}`}</span>
           </h4>
 
           <button type="button" className="order-btn">Order</button>
