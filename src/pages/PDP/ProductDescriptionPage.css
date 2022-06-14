@@ -1,4 +1,4 @@
-h1, h2, h3 {
+h1, h2, h3, li, span {
   font-size: 16px;
   margin: 5px 0;
 }
@@ -12,6 +12,8 @@ h1, h2, h3 {
 .product-description-container {
   padding: 160px 219px 0px 100px;
   font-family: var(--font-base);
+
+  justify-content: space-evenly;
 }
 
 .product-imgs-container {
@@ -35,14 +37,14 @@ h1, h2, h3 {
   height: 511px;
   width: 610px;
 
-  object-fit: fill;
+  object-fit: contain;
 }
 
 .product-imgs {
   width: 79px;
   height: 80px;
 
-  margin: 20px;
+  margin: 0 20px 40px 20px;
 
   cursor: pointer;
 }
@@ -100,6 +102,7 @@ h1, h2, h3 {
   border: 1px solid var(--color-black);
   
   font-family: var(--font-source-sans-pro);
+  font-size: 16px;
   font-weight: 400;
 
   cursor: pointer;
@@ -169,4 +172,56 @@ h1, h2, h3 {
 
 .product-description::-webkit-scrollbar {
   display: none;
+}
+
+@media screen and (min-width: 1800px) {
+  h1, h2, h3, p, li, span {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+
+  .product-imgs-wrapper,
+  .selected-img {
+    height: 625px;
+  }
+
+  .pdp-product-brand,
+  .pdp-product-name {
+    font-size: 45px;
+    line-height: 35px;
+  }
+
+  .product-attr-name {
+    font-size: 27px;
+    line-height: 27px;
+  }
+
+  .attr-option {
+    font-size: 20px;
+    height: 70px;
+    width: 95px;
+  }
+
+  .attr-swatch-option {
+    height: 45px;
+    width: 45px;
+  }
+
+  .pdp-product-price {
+    height: 60px;
+    font-size: 36px;
+    line-height: 30px;
+  }
+
+  .add-to-cart-btn {
+    font-size: 20px;
+    height: 70px;
+    width: 415px;
+  }
+
+  .product-description {
+    font-size: 20px;
+    height: 300px;
+    width: 415px;
+  }
 }
