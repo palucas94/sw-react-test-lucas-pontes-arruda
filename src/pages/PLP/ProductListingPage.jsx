@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable class-methods-use-this */
 import React, { PureComponent } from 'react';
 import store from '../../redux/store';
 import Header from '../../components/Header/Header';
@@ -20,18 +18,19 @@ class ProductListingPage extends PureComponent {
   }
 
   componentDidMount() {
-    const category = window.location.pathname.split('/')[1].toString();
-    store.dispatch(changeCategory(category));
-    this.fetchProducts(category);
+    const { category } = this.state;
+    const urlCategory = window.location.pathname.split('/')[1].toString();
+    store.dispatch(changeCategory(urlCategory));
+    this.fetchProducts(urlCategory);
 
     this.setState({
-      category,
+      category: urlCategory,
     });
 
     store.subscribe(() => {
       this.setState({
         category: store.getState().category.currentCategory,
-      }, () => this.fetchProducts(this.state.category));
+      }, () => this.fetchProducts(category));
     });
   }
 
